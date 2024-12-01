@@ -18,11 +18,7 @@ export class PlacesService {
     return this.fetchPlaces(
       'http://localhost:3000/places',
       'Something went wrong fetching the available places. Please try again later.'
-    ).pipe(
-      tap({
-      next: (userPlaces) => this.userPlaces.set(userPlaces),
-    })
-  );
+    )
   }
 
   loadUserPlaces() {
@@ -30,7 +26,11 @@ export class PlacesService {
     return this.fetchPlaces(
       'http://localhost:3000/user-places',
       'Something went wrong fetching your favorite places. Please try again later.'
-    );
+    ).pipe(
+      tap({
+      next: (userPlaces) => this.userPlaces.set(userPlaces),
+    })
+  );
   }
 
   addPlaceToUserPlaces(place: Place) {

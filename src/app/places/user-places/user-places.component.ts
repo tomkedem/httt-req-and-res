@@ -17,16 +17,17 @@ export class UserPlacesComponent implements OnInit {
   error = signal('');
   private placesService = inject(PlacesService)
   private destroyRef = inject(DestroyRef)
-  places = this.placesService.loadedUserPlaces;
+  userPlaces = this.placesService.loadedUserPlaces;
 
   ngOnInit(){
- 
+  console.log('tomer-userPlaces: ', this.userPlaces().length)
     this.isFetching.set(true);
     const subsciption = this.placesService.loadUserPlaces().subscribe({      
       error: (error: Error) => {
         this.error.set(error.message);
       },
       complete: () => {
+        console.log('tomer-userPlaces: ', this.userPlaces().length)
         this.isFetching.set(false);
       }
     });
@@ -34,5 +35,5 @@ export class UserPlacesComponent implements OnInit {
     this.destroyRef.onDestroy(() =>{
       subsciption.unsubscribe();
     });
-  }
+   }
 }
