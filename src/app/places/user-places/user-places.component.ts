@@ -20,14 +20,14 @@ export class UserPlacesComponent implements OnInit {
   userPlaces = this.placesService.loadedUserPlaces;
 
   ngOnInit(){
-  console.log('tomer-userPlaces: ', this.userPlaces().length)
+  
     this.isFetching.set(true);
     const subsciption = this.placesService.loadUserPlaces().subscribe({      
       error: (error: Error) => {
         this.error.set(error.message);
       },
       complete: () => {
-        console.log('tomer-userPlaces: ', this.userPlaces().length)
+      
         this.isFetching.set(false);
       }
     });
