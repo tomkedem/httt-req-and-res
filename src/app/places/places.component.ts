@@ -9,12 +9,10 @@ import { Place } from './place.model';
   templateUrl: './places.component.html',
   styleUrl: './places.component.css',
 })
-export class PlacesComponent implements OnInit {
+export class PlacesComponent {
   places = input.required<Place[]>();
   selectPlace = output<Place>();
-  ngOnInit(): void {
-    console.log('Hi Tomer',this.places.length);
-  }
+  
 
 
   onSelectPlace(place: Place) {
