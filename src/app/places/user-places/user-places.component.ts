@@ -20,6 +20,7 @@ export class UserPlacesComponent implements OnInit {
   places = this.placesService.loadedUserPlaces;
 
   ngOnInit(){
+ 
     this.isFetching.set(true);
     const subsciption = this.placesService.loadUserPlaces().subscribe({      
       error: (error: Error) => {

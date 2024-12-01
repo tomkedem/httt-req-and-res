@@ -11,6 +11,7 @@ export class PlacesService {
   private httpClient = inject(HttpClient)
   private userPlaces = signal<Place[]>([]);
 
+
   loadedUserPlaces = this.userPlaces.asReadonly();
 
   loadAvailablePlaces() {
@@ -25,15 +26,19 @@ export class PlacesService {
   }
 
   loadUserPlaces() {
+  
     return this.fetchPlaces(
       'http://localhost:3000/user-places',
       'Something went wrong fetching your favorite places. Please try again later.'
     );
   }
 
-  addPlaceToUserPlaces(placeId: string) {
+  addPlaceToUserPlaces(place: Place) {
+    this.userPlaces.update(prevPlaces => []);
+    this.userPlaces.update(prevPlaces => [...prevPlaces, place]);
+    
     return this.httpClient.put('http://localhost:3000/user-places', {
-      placeId
+      placeId: place.id,
     });
   }
 
