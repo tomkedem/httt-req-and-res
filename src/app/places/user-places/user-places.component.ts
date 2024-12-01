@@ -3,8 +3,7 @@ import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
 import { PlacesComponent } from '../places.component';
 import { Place } from '../place.model';
-import { HttpClient } from '@angular/common/http';
-import { catchError, map, throwError } from 'rxjs';
+import { PlacesService } from '../places.service';
 
 @Component({
   selector: 'app-user-places',
@@ -17,26 +16,14 @@ export class UserPlacesComponent implements OnInit {
   places = signal<Place[] | undefined>(undefined);
   isFetching = signal(false);
   error = signal('');
-  private htttClient = inject(HttpClient)
+  private placesService = inject(PlacesService)
   private destroyRef = inject(DestroyRef)
 
 
   ngOnInit(){
     this.isFetching.set(true);
-    const subsciption = this.htttClient
-    .get<{places: Place[]}>('http://localhost:3000/user-places')
-    .pipe(
-      map((resData) => resData.places), 
-      catchError((error) => {
-        console.log(error);
-        return throwError(
-          () => 
-          new Error(
-            'Something went wrong fetching the favorite places. Please try again later.'
-          )
-        );
-      })
-    )
+    const subsciption = 
+    this.placesService.loadUserPlaces()
     .subscribe({
       next: (places) => {            
         this.places.set(places)       
